@@ -4,355 +4,1052 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal Finance Dashboard</title>
+<title>Personal Finance | Cashflow Dashboard</title>
+
 <style>
 :root {
-  --bg:#f3f5f1; --card:#fff; --green:#52766a;
-  --dark:#35574d; --gold:#c4a86a; --red:#c98278;
-  --text:#273b35; --muted:#7b8982; --line:#e7ece7;
+  --bg: #f3f5f1;
+  --card: #ffffff;
+  --green: #52766a;
+  --dark: #35574d;
+  --gold: #c4a86a;
+  --red: #c98278;
+  --text: #273b35;
+  --muted: #7b8982;
+  --line: #e7ece7;
+  --shadow: 0 6px 22px rgba(53,87,77,.07);
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font:14px Arial,sans-serif}
-.app{max-width:1400px;margin:auto;padding:24px}
-header{background:linear-gradient(120deg,var(--dark),var(--green));
-color:white;padding:28px;border-radius:22px;margin-bottom:70px}
-header small{color:#e2d2a3;letter-spacing:2px}
-h1{margin:12px 0 8px;font-size:30px}
-header p{color:#dce7e1}
-select,input,button{font:inherit;padding:11px;border-radius:10px;
-border:1px solid var(--line)}
-button{cursor:pointer;background:var(--green);color:white;border:0}
-.metrics{display:grid;grid-template-columns:repeat(5,1fr);
-gap:14px;margin-top:-125px;padding:0 16px 20px}
-.metric,.card{background:var(--card);border:1px solid var(--line);
-border-radius:18px;padding:19px;box-shadow:0 6px 20px #35574d0b}
-.metric small,.muted{color:var(--muted)}
-.metric h2{font-size:clamp(16px,2vw,23px);overflow-wrap:anywhere}
-.green{color:var(--green)}.red{color:var(--red)}
-.dashboard{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;
-gap:16px}
-.card h3{font-size:15px;margin:0 0 7px}
-.sub{font-size:12px;color:var(--muted);margin-bottom:20px}
-.row{display:flex;justify-content:space-between;gap:10px;
-padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
-.track{height:8px;background:#edf1ed;border-radius:20px;
-overflow:hidden;margin-top:8px}
-.fill{height:100%;background:var(--green);border-radius:20px}
-.gold{background:var(--gold)}.pink{background:var(--red)}
-.budget{margin:18px 0}
-.budget label{display:flex;justify-content:space-between;
-font-size:12px;gap:8px}
-.chart{width:100%;height:auto}
-.donut-wrap{display:flex;align-items:center;gap:12px}
-.donut{width:140px;max-width:48%;height:auto}
-.legend{flex:1;font-size:12px}
-.legend div{margin:12px 0}
-.dot{display:inline-block;width:9px;height:9px;
-border-radius:3px;margin-right:6px}
-.bottom{display:grid;grid-template-columns:1fr 1.5fr;
-gap:16px;margin-top:16px}
-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-form input,form select{width:100%;min-width:0}
-form button{grid-column:span 2}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:480px;font-size:12px}
-th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line)}
-th{color:var(--muted)}
-.delete{background:none;color:var(--red);padding:4px}
-footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
-@media(max-width:1000px){
-.metrics{grid-template-columns:repeat(3,1fr)}
-.dashboard{grid-template-columns:1fr 1fr}
-.dashboard .card:last-child{grid-column:span 2}
-.bottom{grid-template-columns:1fr}
+
+* {
+  box-sizing: border-box;
 }
-@media(max-width:600px){
-.app{padding:12px}
-header{padding:20px;margin-bottom:65px}
-h1{font-size:24px}
-.metrics{grid-template-columns:1fr 1fr;padding:0 3px 15px;gap:8px}
-.metric{padding:13px}
-.dashboard,.bottom{grid-template-columns:1fr}
-.dashboard .card:last-child{grid-column:auto}
-.card{padding:15px}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  max-width: 1500px;
+  margin: auto;
+  padding: 24px;
+}
+
+/* HEADER */
+
+header {
+  position: relative;
+  background: linear-gradient(120deg, #35574d, #55796d);
+  color: white;
+  padding: 28px;
+  padding-bottom: 105px;
+  border-radius: 22px;
+}
+
+.header-content {
+  padding-right: 330px;
+}
+
+.eyebrow {
+  color: #e2d2a3;
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+header h1 {
+  margin: 12px 0 8px;
+  font-size: 30px;
+  letter-spacing: -.6px;
+}
+
+header p {
+  margin: 0;
+  color: #dce7e1;
+  font-size: 13px;
+}
+
+.header-actions {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-actions select {
+  width: 140px;
+  background: #fff;
+  color: var(--dark);
+  border: 0;
+}
+
+.header-actions button {
+  background: #f1eadb;
+  color: var(--dark);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.header-actions select,
+.header-actions button {
+  padding: 11px 13px;
+  border-radius: 10px;
+}
+
+/* SUMMARY CARDS */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin: -55px 16px 22px;
+  position: relative;
+  z-index: 2;
+}
+
+.metric {
+  min-width: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.metric-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.metric-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 9px;
+  background: #e4ede6;
+  color: var(--green);
+  font-size: 15px;
+}
+
+.metric h2 {
+  font-size: clamp(16px, 1.8vw, 23px);
+  margin: 14px 0 20px;
+  overflow-wrap: anywhere;
+  letter-spacing: -.4px;
+}
+
+.metric-foot {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.green {
+  color: var(--green);
+}
+
+.red {
+  color: var(--red);
+}
+
+/* DASHBOARD LAYOUT */
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1.4fr;
+  gap: 16px;
+}
+
+.card {
+  min-width: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.card h3 {
+  font-size: 14px;
+  margin: 0 0 7px;
+}
+
+.sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* BUDGET */
+
+.budget {
+  margin: 17px 0;
+}
+
+.budget-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.budget-label span {
+  color: var(--muted);
+}
+
+.track {
+  height: 8px;
+  border-radius: 20px;
+  background: #edf1ed;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 20px;
+}
+
+.fill.gold {
+  background: var(--gold);
+}
+
+.fill.red-fill {
+  background: var(--red);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+
+.summary-row:last-child {
+  border-bottom: 0;
+}
+
+/* CHARTS */
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.donut {
+  width: 145px;
+  max-width: 48%;
+  flex-shrink: 0;
+}
+
+.legend {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+}
+
+.legend-item {
+  margin: 12px 0;
+}
+
+.legend-item strong {
+  display: block;
+  margin: 5px 0 0 15px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+
+.bar-item {
+  margin: 17px 0;
+}
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.bar-label span {
+  color: var(--muted);
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 16px 0;
+}
+
+/* TRANSACTIONS */
+
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+input, form select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #dfe7e0;
+  border-radius: 10px;
+  background: #fbfcfa;
+  color: var(--text);
+  outline: none;
+}
+
+input:focus, form select:focus {
+  border-color: var(--green);
+}
+
+.btn {
+  padding: 12px 15px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--green);
+  color: white;
+  font-weight: 700;
+}
+
+.btn.secondary {
+  background: #e4ede6;
+  color: var(--dark);
+}
+
+form button {
+  grid-column: span 2;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 490px;
+  font-size: 12px;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.tag {
+  display: inline-block;
+  background: #e4ede6;
+  color: var(--dark);
+  border-radius: 20px;
+  padding: 5px 8px;
+  font-size: 10px;
+}
+
+.tag.expense {
+  background: #f7e7e3;
+  color: #a75e54;
+}
+
+.delete {
+  background: transparent;
+  color: var(--red);
+  border: 0;
+  font-size: 17px;
+  padding: 3px 6px;
+}
+
+footer {
+  text-align: center;
+  padding: 26px 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* TABLET */
+
+@media (max-width: 1100px) {
+  .metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard .card:last-child {
+    grid-column: span 2;
+  }
+
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .header-content {
+    padding-right: 280px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+  .app {
+    padding: 12px;
+  }
+
+  header {
+    padding: 21px 18px 82px;
+  }
+
+  .header-content {
+    padding-right: 0;
+  }
+
+  header h1 {
+    font-size: 24px;
+  }
+
+  header p {
+    max-width: 100%;
+    line-height: 1.5;
+  }
+
+  .header-actions {
+    position: static;
+    margin-top: 17px;
+    flex-wrap: wrap;
+  }
+
+  .header-actions select {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .header-actions button {
+    flex: 1;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: -40px 4px 17px;
+    gap: 9px;
+  }
+
+  .metric {
+    padding: 13px;
+  }
+
+  .metric h2 {
+    font-size: 18px;
+    margin: 12px 0 14px;
+  }
+
+  .metric:last-child {
+    grid-column: span 2;
+  }
+
+  .dashboard,
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard .card:last-child {
+    grid-column: auto;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .donut {
+    width: 125px;
+  }
 }
 </style>
 </head>
+
 <body>
 <div class="app">
+
 <header>
-<small>PERSONAL FINANCE</small>
-<h1>Cashflow Dashboard</h1>
-<p>Pemasukan - Pengeluaran - Saving</p>
-<select id="period">
-<option value="month">Bulan ini</option>
-<option value="all">Semua transaksi</option>
-</select>
-<button onclick="exportCSV()">Export CSV ↓</button>
+  <div class="header-content">
+    <div class="eyebrow">PERSONAL FINANCE</div>
+    <h1>Cashflow Dashboard</h1>
+    <p>Pemasukan, pengeluaran, dan tabungan dalam satu dashboard.</p>
+  </div>
+
+  <div class="header-actions">
+    <select id="period">
+      <option value="month">Bulan ini</option>
+      <option value="all">Semua transaksi</option>
+    </select>
+    <button type="button" id="exportBtn">↓ Export CSV</button>
+  </div>
 </header>
 
 <section class="metrics">
-<div class="metric"><small>◈ Saldo saat ini</small>
-<h2 id="balance">Rp0</h2><small>Total saldo bersih</small></div>
-<div class="metric"><small>↗ Pemasukan</small>
-<h2 class="green" id="income">Rp0</h2><small>Uang masuk</small></div>
-<div class="metric"><small>↘ Pengeluaran</small>
-<h2 class="red" id="expense">Rp0</h2><small>Uang keluar</small></div>
-<div class="metric"><small>▤ Tagihan</small>
-<h2 id="bills">Rp0</h2><small>Total kategori tagihan</small></div>
-<div class="metric"><small>♧ Saving Rate</small>
-<h2 id="saving">0%</h2><small>Persentase uang tersisa</small></div>
+
+  <div class="metric">
+    <div class="metric-label"><span class="metric-icon">◈</span>Saldo saat ini</div>
+    <h2 id="balance">Rp0</h2>
+    <div class="metric-foot">Total saldo bersih</div>
+  </div>
+
+  <div class="metric">
+    <div class="metric-label"><span class="metric-icon">↗</span>Pemasukan</div>
+    <h2 class="green" id="income">Rp0</h2>
+    <div class="metric-foot">Total uang masuk</div>
+  </div>
+
+  <div class="metric">
+    <div class="metric-label"><span class="metric-icon">↘</span>Pengeluaran</div>
+    <h2 class="red" id="expense">Rp0</h2>
+    <div class="metric-foot">Total uang keluar</div>
+  </div>
+
+  <div class="metric">
+    <div class="metric-label"><span class="metric-icon">▤</span>Tagihan</div>
+    <h2 id="bills">Rp0</h2>
+    <div class="metric-foot">Total kategori tagihan</div>
+  </div>
+
+  <div class="metric">
+    <div class="metric-label"><span class="metric-icon">♧</span>Saving Rate</div>
+    <h2 id="saving">0%</h2>
+    <div class="metric-foot">Persentase uang tersisa</div>
+  </div>
+
 </section>
 
 <main class="dashboard">
-<section class="card">
-<h3>🟡 Budget vs Actual</h3>
-<p class="sub">Anggaran dan realisasi</p>
-<div id="budgetRows"></div>
-<div class="row"><span>Total anggaran</span><b id="budgetTotal"></b></div>
-<div class="row"><span>Pengeluaran aktual</span><b id="actual"></b></div>
-<div class="row"><span>Sisa anggaran</span><b id="remaining"></b></div>
-</section>
 
-<section class="card">
-<h3>🟡 Cashflow Summary</h3>
-<p class="sub">Pemasukan dibanding pengeluaran</p>
-<svg id="cashflow" class="chart" viewBox="0 0 420 230"></svg>
-</section>
+  <section class="card">
+    <h3><span class="dot"></span>Budget vs Actual</h3>
+    <p class="sub">Anggaran dibanding realisasi pengeluaran</p>
+    <div id="budgetRows"></div>
+    <div class="summary-row"><span>Total anggaran</span><b id="budgetTotal">Rp0</b></div>
+    <div class="summary-row"><span>Pengeluaran aktual</span><b id="actual">Rp0</b></div>
+    <div class="summary-row"><span>Sisa anggaran</span><b id="remaining">Rp0</b></div>
+  </section>
 
-<section class="card">
-<h3>🟡 Allocation Summary</h3>
-<p class="sub">Komposisi arus uang</p>
-<div class="donut-wrap">
-<svg id="donut" class="donut" viewBox="0 0 160 160"></svg>
-<div class="legend" id="allocation"></div>
-</div>
-</section>
+  <section class="card">
+    <h3><span class="dot"></span>Cashflow Summary</h3>
+    <p class="sub">Perbandingan uang masuk dan keluar</p>
+    <svg id="cashflow" class="chart" viewBox="0 0 420 230"></svg>
+  </section>
 
-<section class="card">
-<h3>🟡 Highest Expenses</h3>
-<p class="sub">Kategori pengeluaran terbesar</p>
-<div id="highest"></div>
-</section>
+  <section class="card">
+    <h3><span class="dot"></span>Allocation Summary</h3>
+    <p class="sub">Komposisi penggunaan pemasukan</p>
+    <div class="donut-wrap">
+      <svg id="donut" class="donut" viewBox="0 0 160 160"></svg>
+      <div class="legend" id="allocation"></div>
+    </div>
+  </section>
 
-<section class="card">
-<h3>🟡 Income Sources</h3>
-<p class="sub">Sumber pemasukan</p>
-<div id="sources"></div>
-</section>
+  <section class="card">
+    <h3><span class="dot"></span>Highest Expenses</h3>
+    <p class="sub">Kategori pengeluaran terbesar</p>
+    <div id="highest"></div>
+  </section>
 
-<section class="card">
-<h3>🟡 Bills Summary</h3>
-<p class="sub">Rincian pembayaran tagihan</p>
-<div id="billRows"></div>
-</section>
+  <section class="card">
+    <h3><span class="dot"></span>Income Sources</h3>
+    <p class="sub">Sumber pemasukan</p>
+    <div id="sources"></div>
+  </section>
+
+  <section class="card">
+    <h3><span class="dot"></span>Bills Summary</h3>
+    <p class="sub">Rincian pembayaran tagihan</p>
+    <div id="billRows"></div>
+  </section>
+
 </main>
 
 <section class="bottom">
-<div class="card">
-<h3>＋ Tambah Transaksi</h3>
-<p class="sub">Catat pemasukan atau pengeluaranmu</p>
-<form id="form">
-<input id="description" placeholder="Nama transaksi" required>
-<input id="amount" type="number" min="1" placeholder="Nominal Rp" required>
-<select id="type">
-<option value="expense">Pengeluaran</option>
-<option value="income">Pemasukan</option>
-</select>
-<select id="category"></select>
-<input id="date" type="date" required>
-<button type="submit">Simpan Transaksi</button>
-</form>
-<br>
-<button onclick="resetData()" style="background:#c98278">Reset Semua Data</button>
-</div>
 
-<div class="card">
-<h3>Riwayat Transaksi</h3>
-<p class="sub">Data tersimpan di browser perangkatmu</p>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Tanggal</th><th>Transaksi</th>
-<th>Kategori</th><th>Nominal</th><th></th></tr></thead>
-<tbody id="transactions"></tbody>
-</table>
-</div>
-</div>
+  <div class="card">
+    <h3>＋ Tambah Transaksi</h3>
+    <p class="sub">Catat pemasukan dan pengeluaranmu.</p>
+
+    <form id="form">
+      <input id="description" placeholder="Nama transaksi" required>
+      <input id="amount" type="number" min="1" step="1" placeholder="Nominal (Rp)" required>
+
+      <select id="type">
+        <option value="expense">Pengeluaran</option>
+        <option value="income">Pemasukan</option>
+      </select>
+
+      <select id="category"></select>
+
+      <input id="date" type="date" required>
+
+      <button class="btn" type="submit">＋ Simpan Transaksi</button>
+    </form>
+
+    <br>
+    <button class="btn secondary" type="button" id="resetBtn">Reset Semua Data</button>
+  </div>
+
+  <div class="card">
+    <h3>Riwayat Transaksi</h3>
+    <p class="sub">Data transaksi yang sudah tercatat.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Transaksi</th>
+            <th>Kategori</th>
+            <th>Nominal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="transactions"></tbody>
+      </table>
+    </div>
+  </div>
+
 </section>
+
 <footer>PERSONAL FINANCE DASHBOARD · by @Hafidh_Journey</footer>
 </div>
 
 <script>
-const categories={
- expense:["Makanan","Transportasi","Tagihan","Belanja",
- "Kesehatan","Hiburan","Rumah","Pendidikan","Lainnya"],
- income:["Gaji","Freelance","Bisnis","Investasi","Hadiah","Lainnya"]
+const categories = {
+  expense: [
+    "Makanan", "Transportasi", "Tagihan", "Belanja",
+    "Kesehatan", "Hiburan", "Rumah", "Pendidikan", "Lainnya"
+  ],
+  income: [
+    "Gaji", "Freelance", "Bisnis", "Investasi", "Hadiah", "Lainnya"
+  ]
 };
-const budgets={
- Makanan:1500000,Transportasi:600000,Tagihan:1000000,
- Belanja:700000,Kesehatan:300000,Hiburan:350000,
- Rumah:1200000,Pendidikan:300000,Lainnya:250000
-};
-const colors=["#52766a","#c4a86a","#b9cbd5","#c98278",
-"#8eaa91","#b8a6c9","#d9bca2","#7e9690","#b6bcb4"];
-const money=n=>new Intl.NumberFormat("id-ID",{
- style:"currency",currency:"IDR",maximumFractionDigits:0
-}).format(n||0);
-const $=id=>document.getElementById(id);
-let data=[];
-try{data=JSON.parse(localStorage.getItem("cashflowData")||"[]")}
-catch(e){data=[]}
 
-$("date").value=new Date().toLocaleDateString("sv-SE");
-function save(){
- localStorage.setItem("cashflowData",JSON.stringify(data));
+const budgets = {
+  Makanan: 1500000,
+  Transportasi: 600000,
+  Tagihan: 1000000,
+  Belanja: 700000,
+  Kesehatan: 300000,
+  Hiburan: 350000,
+  Rumah: 1200000,
+  Pendidikan: 300000,
+  Lainnya: 250000
+};
+
+const $ = id => document.getElementById(id);
+
+const money = n => new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0
+}).format(n || 0);
+
+const shortMoney = n => {
+  if (n >= 1000000) return "Rp" + (n / 1000000).toLocaleString("id-ID", {maximumFractionDigits: 1}) + " jt";
+  if (n >= 1000) return "Rp" + Math.round(n / 1000) + " rb";
+  return money(n);
+};
+
+const today = () => {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 10);
+};
+
+let transactions = [];
+
+try {
+  transactions = JSON.parse(localStorage.getItem("cashflowData") || "[]");
+  if (!Array.isArray(transactions)) transactions = [];
+} catch (e) {
+  transactions = [];
 }
-function updateCategories(){
- $("category").innerHTML=categories[$("type").value]
- .map(c=>`<option>${c}</option>`).join("");
+
+$("date").value = today();
+
+function saveData() {
+  localStorage.setItem("cashflowData", JSON.stringify(transactions));
 }
-$("type").addEventListener("change",updateCategories);
+
+function updateCategories() {
+  const list = categories[$("type").value];
+  $("category").innerHTML = list.map(c =>
+    `<option value="${c}">${c}</option>`
+  ).join("");
+}
+
+$("type").addEventListener("change", updateCategories);
 updateCategories();
 
-function visible(){
- if($("period").value==="all")return data;
- const m=new Date().toLocaleDateString("sv-SE").slice(0,7);
- return data.filter(t=>t.date.slice(0,7)===m);
-}
-function total(list){return list.reduce((s,t)=>s+t.amount,0)}
-function group(list,key){
- const out={};
- list.forEach(t=>out[t[key]]=(out[t[key]]||0)+t.amount);
- return Object.entries(out).sort((a,b)=>b[1]-a[1]);
-}
-function safe(s){
- return String(s).replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-function render(){
- const ts=visible();
- const inc=total(ts.filter(t=>t.type==="income"));
- const ex=total(ts.filter(t=>t.type==="expense"));
- const allInc=total(data.filter(t=>t.type==="income"));
- const allEx=total(data.filter(t=>t.type==="expense"));
- $("balance").textContent=money(allInc-allEx);
- $("income").textContent=money(inc);
- $("expense").textContent=money(ex);
- $("bills").textContent=money(total(ts.filter(t=>
- t.type==="expense"&&t.category==="Tagihan")));
- $("saving").textContent=(inc?(inc-ex)/inc*100:0)
- .toLocaleString("id-ID",{maximumFractionDigits:1})+"%";
+function visibleTransactions() {
+  if ($("period").value === "all") return transactions;
 
- const spent=Object.fromEntries(group(
- ts.filter(t=>t.type==="expense"),"category"));
- const budgetTotal=Object.values(budgets).reduce((a,b)=>a+b,0);
- $("budgetRows").innerHTML=Object.entries(budgets).map(([c,b])=>{
- const amount=spent[c]||0;
- const pct=Math.min(100,amount/b*100);
- return `<div class="budget"><label><span>${c}</span>
- <b>${money(amount)}</b></label><div class="track"><div
- class="fill ${amount>b?"pink":""}" style="width:${pct}%"></div>
- </div><small class="muted">Anggaran ${money(b)}</small></div>`;
- }).join("");
- $("budgetTotal").textContent=money(budgetTotal);
- $("actual").textContent=money(ex);
- $("remaining").textContent=money(budgetTotal-ex);
-
- const max=Math.max(inc,ex,1);
- $("cashflow").innerHTML=`
- ${[0,1,2,3,4].map(i=>`<line x1="20" y1="${35+i*35}"
- x2="405" y2="${35+i*35}" stroke="#e7ece7"/>`).join("")}
- <rect x="95" y="${175-inc/max*125}" width="75"
- height="${inc/max*125}" rx="7" fill="#52766a"/>
- <rect x="245" y="${175-ex/max*125}" width="75"
- height="${ex/max*125}" rx="7" fill="#c4a86a"/>
- <text x="132" y="195" text-anchor="middle" fill="#7b8982">Masuk</text>
- <text x="282" y="195" text-anchor="middle" fill="#7b8982">Keluar</text>
- <text x="132" y="${Math.max(20,165-inc/max*125)}"
- text-anchor="middle" fill="#52766a" font-size="11">${short(inc)}</text>
- <text x="282" y="${Math.max(20,165-ex/max*125)}"
- text-anchor="middle" fill="#9d8045" font-size="11">${short(ex)}</text>`;
-
- const saved=Math.max(0,inc-ex),den=inc||1;
- const ratio=inc?ex/den:0;
- const dash=314;
- const used=dash*ratio;
- $("donut").innerHTML=`
- <circle cx="80" cy="80" r="50" fill="none" stroke="#e7ece7"
- stroke-width="18"/>
- <circle cx="80" cy="80" r="50" fill="none" stroke="#52766a"
- stroke-width="18" stroke-dasharray="${used} ${dash-used}"
- transform="rotate(-90 80 80)"/>
- <text x="80" y="77" text-anchor="middle" font-size="15"
- font-weight="bold" fill="#273b35">${Math.round(saved/den*100)}%</text>
- <text x="80" y="94" text-anchor="middle" font-size="10"
- fill="#7b8982">Tersisa</text>`;
- $("allocation").innerHTML=`
- <div><i class="dot" style="background:#52766a"></i>Pengeluaran
- <br><b>${money(ex)}</b></div>
- <div><i class="dot" style="background:#c4a86a"></i>Sisa uang
- <br><b>${money(saved)}</b></div>`;
-
- bars("highest",group(ts.filter(t=>t.type==="expense"),"category"));
- bars("sources",group(ts.filter(t=>t.type==="income"),"category"));
- const bills=group(ts.filter(t=>t.type==="expense"&&
- t.category==="Tagihan"),"description");
- $("billRows").innerHTML=bills.length?bills.map(([n,v])=>
- `<div class="row"><span>${safe(n)}</span><b>${money(v)}</b></div>`
- ).join(""):'<p class="muted">Belum ada tagihan.</p>';
-
- $("transactions").innerHTML=[...ts].sort((a,b)=>
- b.date.localeCompare(a.date)).map(t=>`
- <tr><td>${t.date}</td><td>${safe(t.description)}</td>
- <td>${safe(t.category)}</td><td class="${t.type==="income"?"green":"red"}">
- ${t.type==="income"?"+":"−"}${money(t.amount)}</td>
- <td><button class="delete" onclick="removeItem('${t.id}')">×</button></td>
- </tr>`).join("")||'<tr><td colspan="5">Belum ada transaksi.</td></tr>';
+  const month = today().slice(0, 7);
+  return transactions.filter(t => t.date.slice(0, 7) === month);
 }
-function short(n){
- return n>=1e6?"Rp"+(n/1e6).toFixed(1)+" jt":
- n>=1000?"Rp"+Math.round(n/1000)+" rb":money(n);
+
+function sum(list) {
+  return list.reduce((total, t) => total + Number(t.amount || 0), 0);
 }
-function bars(id,entries){
- const max=Math.max(1,...entries.map(x=>x[1]));
- $(id).innerHTML=entries.slice(0,6).map(([name,value],i)=>`
- <div class="budget"><label><span>${safe(name)}</span>
- <b>${money(value)}</b></label><div class="track"><div
- class="fill ${i%2?"gold":""}" style="width:${value/max*100}%"></div>
- </div></div>`).join("")||'<p class="muted">Belum ada data.</p>';
+
+function group(list, key) {
+  const result = {};
+
+  list.forEach(t => {
+    result[t[key]] = (result[t[key]] || 0) + Number(t.amount || 0);
+  });
+
+  return Object.entries(result).sort((a, b) => b[1] - a[1]);
 }
-$("form").addEventListener("submit",e=>{
- e.preventDefault();
- data.push({
- id:Date.now().toString()+Math.random().toString(16).slice(2),
- description:$("description").value.trim(),
- amount:Number($("amount").value),type:$("type").value,
- category:$("category").value,date:$("date").value
- });
- save();$("form").reset();
- $("date").value=new Date().toLocaleDateString("sv-SE");
- updateCategories();render();
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function render() {
+  const list = visibleTransactions();
+
+  const income = sum(list.filter(t => t.type === "income"));
+  const expense = sum(list.filter(t => t.type === "expense"));
+
+  const allIncome = sum(transactions.filter(t => t.type === "income"));
+  const allExpense = sum(transactions.filter(t => t.type === "expense"));
+
+  $("balance").textContent = money(allIncome - allExpense);
+  $("income").textContent = money(income);
+  $("expense").textContent = money(expense);
+
+  $("bills").textContent = money(sum(list.filter(t =>
+    t.type === "expense" && t.category === "Tagihan"
+  )));
+
+  const rate = income ? ((income - expense) / income) * 100 : 0;
+  $("saving").textContent = rate.toLocaleString("id-ID", {
+    maximumFractionDigits: 1
+  }) + "%";
+
+  renderBudget(list);
+  renderCashflow(income, expense);
+  renderAllocation(income, expense);
+
+  renderBars(
+    "highest",
+    group(list.filter(t => t.type === "expense"), "category")
+  );
+
+  renderBars(
+    "sources",
+    group(list.filter(t => t.type === "income"), "category")
+  );
+
+  renderBills(list);
+  renderTransactions();
+}
+
+function renderBudget(list) {
+  const expenses = group(
+    list.filter(t => t.type === "expense"),
+    "category"
+  );
+
+  const spent = Object.fromEntries(expenses);
+  const totalBudget = sum(
+    Object.values(budgets).map(amount => ({amount}))
+  );
+
+  const actual = sum(list.filter(t => t.type === "expense"));
+
+  $("budgetRows").innerHTML = Object.entries(budgets).map(([name, budget]) => {
+    const amount = spent[name] || 0;
+    const percent = Math.min(100, amount / budget * 100);
+    const color = amount > budget ? "red-fill" : "";
+
+    return `
+      <div class="budget">
+        <div class="budget-label">
+          <span>${name}</span>
+          <b>${money(amount)}</b>
+        </div>
+        <div class="track">
+          <div class="fill ${color}" style="width:${percent}%"></div>
+        </div>
+        <div style="font-size:10px;color:#7b8982;margin-top:5px">
+          Anggaran ${money(budget)}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  $("budgetTotal").textContent = money(totalBudget);
+  $("actual").textContent = money(actual);
+  $("remaining").textContent = money(totalBudget - actual);
+}
+
+function renderCashflow(income, expense) {
+  const max = Math.max(income, expense, 1);
+  const base = 175;
+  const scale = 125 / max;
+
+  let grid = "";
+
+  for (let i = 0; i < 5; i++) {
+    const y = 35 + i * 35;
+    grid += `<line x1="20" y1="${y}" x2="405" y2="${y}" stroke="#e7ece7"/>`;
+  }
+
+  function bar(x, amount, color, label) {
+    const height = amount * scale;
+    const y = base - height;
+
+    return `
+      <rect x="${x}" y="${y}" width="76" height="${height}"
+        rx="7" fill="${color}"/>
+      <text x="${x + 38}" y="${Math.max(20, y - 9)}"
+        text-anchor="middle" fill="${color}" font-size="11">
+        ${shortMoney(amount)}
+      </text>
+      <text x="${x + 38}" y="198" text-anchor="middle"
+        fill="#7b8982" font-size="11">${label}</text>
+    `;
+  }
+
+  $("cashflow").innerHTML = grid +
+    bar(95, income, "#52766a", "Pemasukan") +
+    bar(245, expense, "#c4a86a", "Pengeluaran");
+}
+
+function renderAllocation(income, expense) {
+  const remaining = Math.max(0, income - expense);
+  const denominator = income || 1;
+  const circumference = 314;
+  const used = circumference * Math.min(1, expense / denominator);
+
+  $("donut").innerHTML = `
+    <circle cx="80" cy="80" r="50" fill="none"
+      stroke="#e7ece7" stroke-width="18"/>
+    <circle cx="80" cy="80" r="50" fill="none"
+      stroke="#52766a" stroke-width="18"
+      stroke-dasharray="${used} ${circumference - used}"
+      transform="rotate(-90 80 80)"/>
+    <text x="80" y="77" text-anchor="middle"
+      font-size="16" font-weight="bold" fill="#273b35">
+      ${Math.round(remaining / denominator * 100)}%
+    </text>
+    <text x="80" y="94" text-anchor="middle"
+      font-size="10" fill="#7b8982">Tersisa</text>
+  `;
+
+  $("allocation").innerHTML = `
+    <div class="legend-item">
+      <span class="swatch" style="background:#52766a"></span>
+      Pengeluaran
+      <strong>${money(expense)}</strong>
+    </div>
+    <div class="legend-item">
+      <span class="swatch" style="background:#c4a86a"></span>
+      Sisa uang
+      <strong>${money(remaining)}</strong>
+    </div>
+  `;
+}
+
+function renderBars(id, entries) {
+  const max = Math.max(1, ...entries.map(entry => entry[1]));
+
+  if (!entries.length) {
+    $(id).innerHTML = '<div class="empty">Belum ada data pada periode ini.</div>';
+    return;
+  }
+
+  $(""+id).innerHTML = entries.slice(0, 6).map(([name, amount], index) => `
+    <div class="bar-item">
+      <div class="bar-label">
+        <span>${escapeHTML(name)}</span>
+        <b>${money(amount)}</b>
+      </div>
+      <div class="track">
+        <div class="fill ${index % 2 ? "gold" : ""}"
+          style="width:${amount / max * 100}%"></div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderBills(list) {
+  const bills = group(
+    list.filter(t => t.type === "expense" && t.category === "Tagihan"),
+    "description"
+  );
+
+  $("billRows").innerHTML = bills.length
+    ? bills.map(([name, amount]) => `
+        <div class="summary-row">
+          <span>${escapeHTML(name)}</span>
+          <b>${money(amount)}</b>
+        </div>
+      `).join("")
+    : '<div class="empty">Belum ada tagihan tercatat.</div>';
+}
+
+function renderTransactions() {
+  const list = [...visibleTransactions()].sort((a, b) =>
+    b.date.localeCompare(a.date)
+  );
+
+  $("transactions").innerHTML = list.length
+    ? list.map(t => `
+        <tr>
+          <td>${t.date}</td>
+          <td>${escapeHTML(t.description)}</td>
+          <td>
+            <span class="tag ${t.type === "expense" ? "expense" : ""}">
+              ${escapeHTML(t.category)}
+            </span>
+          </td>
+          <td class="${t.type === "income" ? "green" : "red"}">
+            ${t.type === "income" ? "+" : "−"}${money(t.amount)}
+          </td>
+          <td>
+            <button class="delete" type="button"
+              data-delete="${escapeHTML(t.id)}" title="Hapus transaksi">×</button>
+          </td>
+        </tr>
+      `).join("")
+    : '<tr><td colspan="5" class="empty">Belum ada transaksi.</td></tr>';
+
+  document.querySelectorAll("[data-delete]").forEach(button => {
+    button.addEventListener("click", () => {
+      transactions = transactions.filter(t => t.id !== button.dataset.delete);
+      saveData();
+      render();
+    });
+  });
+}
+
+$("form").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const amount = Number($("amount").value);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert("Masukkan nominal yang valid.");
+    return;
+  }
+
+  transactions.push({
+    id: Date.now().toString() + Math.random().toString(16).slice(2),
+    description: $("description").value.trim(),
+    amount,
+    type: $("type").value,
+    category: $("category").value,
+    date: $("date").value
+  });
+
+  saveData();
+  $("form").reset();
+  $("date").value = today();
+  updateCategories();
+  render();
 });
-function removeItem(id){
- data=data.filter(t=>t.id!==id);save();render();
-}
-function resetData(){
- if(confirm("Yakin hapus seluruh transaksi?")){
- data=[];save();render();
- }
-}
-function exportCSV(){
- const rows=[["Tanggal","Nama","Jenis","Kategori","Nominal"],
- ...visible().map(t=>[t.date,t.description,t.type,t.category,t.amount])];
- const csv="\ufeff"+rows.map(r=>r.map(v=>
- '"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");
- const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
- const a=document.createElement("a");
- a.href=url;a.download="cashflow.csv";a.click();URL.revokeObjectURL(url);
-}
-$("period").addEventListener("change",render);
+
+$("period").addEventListener("change", render);
+
+$("resetBtn").addEventListener("click", () => {
+  if (confirm("Yakin ingin menghapus semua transaksi?")) {
+    transactions = [];
+    saveData();
+    render();
+  }
+});
+
+$("exportBtn").addEventListener("click", () => {
+  const rows = [
+    ["Tanggal", "Nama Transaksi", "Jenis", "Kategori", "Nominal"],
+    ...visibleTransactions().map(t => [
+      t.date, t.description, t.type, t.category, t.amount
+    ])
+  ];
+
+  const csv = "\ufeff" + rows.map(row =>
+    row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")
+  ).join("\r\n");
+
+  const blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "cashflow-dashboard.csv";
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
 render();
 </script>
 </body>
