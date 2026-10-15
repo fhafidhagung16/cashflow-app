@@ -46,3 +46,7 @@ Currently under development. Future improvements may include transaction categor
 Informatics Student | Aspiring Software Developer
 
 Interested in Web Development, Artificial Intelligence, Data Analytics, and FinTech.
+
+## Preview
+
+![CashFlow Dashboard](cashflow-dashboard.png)
