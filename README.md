@@ -49,4 +49,4 @@ Interested in Web Development, Artificial Intelligence, Data Analytics, and FinT
 
 ## Preview
 
-![Dashboard Cashflow](Dashboard-Cashflow.png)
+![CashFlow Dashboard](./Dashboard-Cashflow.png)
